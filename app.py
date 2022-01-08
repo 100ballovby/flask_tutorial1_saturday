@@ -4,8 +4,8 @@ from flask import Flask
 app = Flask(__name__)  # непосредственно сайт
 
 
-@app.route('/')
-def hello_world():  # put application's code here
+@app.route('/')  # что будет, если зайти на главную страницу сайта  vk.com/ <-
+def index():
     return 'Hello World!'
 
 
