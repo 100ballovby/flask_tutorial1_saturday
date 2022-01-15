@@ -25,3 +25,13 @@ def contacts():
         return render_template('contacts.html', context=context)
 
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+        form = request.form
+        query = form.get('search_query')
+        return redirect(f'https://google.com/search?q={query}')
+    else:
+        return render_template('search.html')
+
+
