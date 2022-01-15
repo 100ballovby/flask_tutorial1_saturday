@@ -1,6 +1,6 @@
 from app import app  # импортируем переменную-сайт
 
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 
 @app.route('/')  # что будет, если зайти на главную страницу сайта  vk.com/ <-
@@ -9,9 +9,19 @@ def index():
     return render_template('index.html', context=context)  # при переходе на главную страницу, показать шаблон index.html
 
 
-@app.route('/contacts')
+@app.route('/contacts', methods=['GET', 'POST'])  # учу функцию воспринимать методы отправки формы
 def contacts():
     context = {'title': 'Contacts page'}  # набор элементов, передаваемый в шаблон сайта
-    return render_template('contacts.html', context=context)
+    user = None
+    if request.method == 'POST':  # если нажали кнопку отправки формы
+        form = request.form  # связываю данные формы с функцией
+        user = {  # записываю данные из полей формы в словарь
+            'name': form.get('name'),
+            'surname': form.get('surname'),
+            'phone': form.get('p_num')
+        }
+        return render_template('contacts.html', context=context, user=user)
+    else:
+        return render_template('contacts.html', context=context)
 
 
