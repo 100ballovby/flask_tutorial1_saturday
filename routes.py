@@ -1,7 +1,7 @@
 from app import app  # импортируем переменную-сайт
 from forms import LoginForm  # импортируем класс формы
 
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 
 
 @app.route('/')  # что будет, если зайти на главную страницу сайта  vk.com/ <-
@@ -36,7 +36,12 @@ def search():
         return render_template('search.html')
 
 
-@app.route('/login')  # когда пользователь зашел на страницу логина
+@app.route('/login', methods=['GET', 'POST'])  # когда пользователь зашел на страницу логина
 def login():
     form = LoginForm()  # создаю экземпляр формы
+    if form.validate_on_submit():  # если форма отправлена
+        name = form.username.data
+        remember = form.remember_me.data
+        flash(f'На сайте вошел пользователь {name}, запомнить вход: {remember}')
+        return redirect(url_for('index'))  # перенаправляет на главную страницу сайта
     return render_template('login.html', title='Войти', form=form)  # передаю форму в шаблон
