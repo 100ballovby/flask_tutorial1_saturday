@@ -1,4 +1,5 @@
 from app import app  # импортируем переменную-сайт
+from forms import LoginForm  # импортируем класс формы
 
 from flask import render_template, redirect, url_for, request
 
@@ -35,3 +36,7 @@ def search():
         return render_template('search.html')
 
 
+@app.route('/login')  # когда пользователь зашел на страницу логина
+def login():
+    form = LoginForm()  # создаю экземпляр формы
+    return render_template('login.html', title='Войти', form=form)  # передаю форму в шаблон
